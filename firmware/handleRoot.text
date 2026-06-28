@@ -1,0 +1,173 @@
+void handleRoot()
+{
+String page = R"rawliteral(
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>VisionRover</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+body{
+
+background:#111827;
+
+color:white;
+
+font-family:Arial;
+
+text-align:center;
+
+}
+
+h1{
+
+font-size:38px;
+
+}
+
+h2{
+
+color:#00ff99;
+
+}
+
+button{
+
+width:140px;
+
+height:70px;
+
+font-size:20px;
+
+border:none;
+
+border-radius:15px;
+
+margin:10px;
+
+background:#2563eb;
+
+color:white;
+
+}
+
+button:hover{
+
+background:#1d4ed8;
+
+}
+
+.status{
+
+background:#222;
+
+padding:20px;
+
+border-radius:15px;
+
+width:300px;
+
+margin:auto;
+
+margin-top:25px;
+
+font-size:22px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🤖 VisionRover</h1>
+
+<h2>ESP32 WiFi Robot</h2>
+
+<p>WiFi Connected 🟢</p>
+
+<p>
+
+<a href="/forward"><button>▲<br>FORWARD</button></a>
+
+</p>
+
+<p>
+
+<a href="/left"><button>◀ LEFT</button></a>
+
+<a href="/stop"><button>■ STOP</button></a>
+
+<a href="/right"><button>RIGHT ▶</button></a>
+
+</p>
+
+<p>
+
+<a href="/backward"><button>▼<br>BACKWARD</button></a>
+
+</p>
+
+<div class="status">
+
+Current Status<br><br>
+
+STATUS_PLACEHOLDER
+
+</div>
+
+<br>
+
+<p>
+
+Keyboard:<br>
+
+W Forward<br>
+
+A Left<br>
+
+S Backward<br>
+
+D Right<br>
+
+Space Stop
+
+</p>
+
+<script>
+
+document.addEventListener("keydown",function(e){
+
+if(e.key=="w") location="/forward";
+
+if(e.key=="s") location="/backward";
+
+if(e.key=="a") location="/left";
+
+if(e.key=="d") location="/right";
+
+if(e.key==" ") location="/stop";
+
+});
+
+</script>
+
+</body>
+
+</html>
+
+)rawliteral";
+
+page.replace("STATUS_PLACEHOLDER", robotStatus);
+
+server.send(200,"text/html",page);
+
+}
