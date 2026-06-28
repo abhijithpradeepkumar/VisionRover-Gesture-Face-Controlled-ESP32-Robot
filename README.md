@@ -45,6 +45,12 @@ hardware/ - Wiring and hardware documentation
 
 images/ - Build photos
 
+#Trials In Build
+
+<img width="800" height="1422" alt="20260625_21335" src="https://github.com/user-attachments/assets/535ace53-da3f-4682-9f82-945d4d28a3cd" />
+
+
+
 docs/ - Design notes and roadmap
 
 ## Author
