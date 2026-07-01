@@ -1,46 +1,32 @@
 import cv2
-import time
+from ultralytics import YOLO
+
+# Load YOLO model
+model = YOLO("yolov8n.pt")
 
 STREAM_URL = "http://192.168.1.6:81/stream"
 
 cap = cv2.VideoCapture(STREAM_URL)
 
 if not cap.isOpened():
-    print("Cannot open camera.")
+    print("Cannot connect to ESP32-CAM")
     exit()
-
-prev = time.time()
 
 while True:
 
     ret, frame = cap.read()
 
     if not ret:
-        break
+        continue
 
-    fps = 1/(time.time()-prev)
-    prev = time.time()
+    # AI Inference
+    results = model(frame, verbose=False)
 
-    h,w,_ = frame.shape
+    annotated_frame = results[0].plot()
 
-    cx = w//2
-    cy = h//2
+    cv2.imshow("VisionRover AI", annotated_frame)
 
-    # Crosshair
-    cv2.line(frame,(cx-20,cy),(cx+20,cy),(0,255,0),2)
-    cv2.line(frame,(cx,cy-20),(cx,cy+20),(0,255,0),2)
-
-    cv2.putText(frame,
-                f"FPS : {fps:.1f}",
-                (20,30),
-                cv2.FONT_HERSHEY_SIMPLEX,
-                0.7,
-                (0,255,0),
-                2)
-
-    cv2.imshow("VisionRover Camera",frame)
-
-    if cv2.waitKey(1)==27:
+    if cv2.waitKey(1) & 0xFF == 27:
         break
 
 cap.release()
